@@ -69,11 +69,11 @@ function startSession(){
 }
 
 function hasConfiguration(){
-    return defined('configFilePath') && file_exists(configFilePath);
+    return array_key_exists('configuration', $GLOBALS);
 }
 
 function getConfiguration(){
-    return json_decode(file_get_contents(configFilePath), true);
+    return $GLOBALS['configuration'];
 }
 
 function getRequestValue($name, $default = null, $source = null){
@@ -292,10 +292,6 @@ $views = [
                             <label>State path</label>
                             <input type="text" name="statePath" class="form-control" value="<?php echo $options['fields']['statePath'] ?>"/>
                         </div>
-                        <div class="form-group">
-                            <label>Configuration file path</label>
-                            <input type="text" name="configPath" class="form-control" value="<?php echo $options['fields']['configPath'] ?>"/>
-                        </div>
                         <button class="btn btn-primary" type="submit">Create configuration file</button>
                     </form>
                 </div>
@@ -461,7 +457,6 @@ $pages = [
             'label' => getPostValue('label'),
             'description' => getPostValue('description'),
             'statePath' => getPostValue('statePath', './change-accept-state'),
-            'configPath' => getPostValue('configPath', './change-accept-state/configuration.json'),
         ];
 
         $postRequest = true;
@@ -502,27 +497,15 @@ $pages = [
                     'label' => $current['label'],
                     'description' => $current['description'],
 
-                    'currentPath' => $current['statePath'].'/current',
+                    'currentPath' => 'current.txt',
                     'requestsDirectory' => $current['statePath'].'/requests',
                     'historyPath' => $current['statePath'].'/history',
                 ];
 
-                $configString = '<?php define("configFilePath", "'.$current['configPath'].'"); ?>';
+                $configString = '<?php $configuration = '.var_export($savedConfiguration, true).'; ?>';
 
                 if(file_put_contents(__FILE__, $configString."\n".file_get_contents(__FILE__)) === false){
-                    throw new Exception('could not add configuration file path to '.__FILE__);
-                }
-
-                $configurationDirectory = pathinfo($current['configPath'], PATHINFO_DIRNAME);
-                if(!is_dir($configurationDirectory)){
-
-                    if(!mkdir($configurationDirectory, 0775, true)){
-                        throw new Exception('could not create '.$requestsDirectory);
-                    }
-                }
-
-                if(file_put_contents($current['configPath'], json_encode($savedConfiguration, JSON_PRETTY_PRINT)) === false){
-                    throw new Exception('could not save configuration file '.$current['configPath']);
+                    throw new Exception('could not add configuration to '.__FILE__);
                 }
 
                 header('Location: ?page=review');
@@ -539,16 +522,14 @@ $preFilters = [
         'actions' => array_keys($pages),
         'filter' => function($actionName){
 
-            if($actionName === 'createconfig'){
-                return true;
+            if(!hasConfiguration() && $actionName !== 'config'){
+                header('Location: ?page=config');
+                return false;
+            }else if(hasConfiguration() && $actionName === 'config'){
+                header('Location: ?page=review');
+                return false;
             }else{
-
-                if(!hasConfiguration() && $actionName !== 'config'){
-                    header('Location: ?page=config');
-                    return false;
-                }else{
-                    return true;
-                }
+                return true;
             }
         },
     ],
