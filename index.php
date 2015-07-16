@@ -222,7 +222,8 @@ $views = [
         ?>
         <nav class="navbar navbar-default">
             <div class="container">
-                <p class="navbar-text navbar-right"><a href="?page=logout" class="navbar-link">Logout</a></p>
+                <p class="navbar-text navbar-right"><a class="navbar-link" href="?page=logout">Logout</a></p>
+                <p class="navbar-text navbar-right">Attach page to <code><?php echo $options['currentPath'] ?></code></p>
             </div>
         </nav>
         <div class="container container-review">
@@ -412,6 +413,7 @@ $pages = [
                 'description' => $configuration['description'],
                 'currentContent' => $currentContent,
                 'changesFiles' => $changesFiles,
+                'currentPath' => $configuration['currentPath'],
             ];
 
             return render($views['review'], $options);
