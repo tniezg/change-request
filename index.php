@@ -137,6 +137,48 @@ function printHeader($options){
 }
 
 $views = [
+    'widget' => function($options){
+        ?>
+(function() {
+    function init() {
+        var widgetElement = document.createElement('a');
+
+        var cssMap = {
+            width: '30px',
+            height: '30px',
+            backgroundImage: 'url(data:image/jpg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAABkAAD/4QMtaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzYgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NUQ2MzdDNjUyNDlCMTFFNThCQUY5NUNBRjhEODU0NUMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NUQ2MzdDNjYyNDlCMTFFNThCQUY5NUNBRjhEODU0NUMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1RDYzN0M2MzI0OUIxMUU1OEJBRjk1Q0FGOEQ4NTQ1QyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1RDYzN0M2NDI0OUIxMUU1OEJBRjk1Q0FGOEQ4NTQ1QyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pv/uAA5BZG9iZQBkwAAAAAH/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQECAgICAgICAgICAgMDAwMDAwMDAwMBAQEBAQEBAgEBAgICAQICAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA//AABEIABMAEgMBEQACEQEDEQH/xABZAAADAQAAAAAAAAAAAAAAAAAACQoFAQEAAAAAAAAAAAAAAAAAAAAAEAABBAIDAQEBAAAAAAAAAAAFAwQGBwIIAAEJFxYYEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwC/jgJxtP2u1hrDc2ldT+w8nm0YuKYvqg/oyBug8qq2I7AJyRCLMqXMIAlyJnOSolnKCZTPvFHsX0/Zq9pLtVHDhoDjuBO97ubyXBS8ZHarUBJIfELQt6pJTYCOBeVySLWTbggXIxsN+HUC6BAnKfdlyp0X7cLIYExchKjW6gyOZ4mHqDtkGN4b+Osm05jZLZjbV93JNprdZx4l83yVZuIHQwoK0WQig4eDY4/mc7RABn6w/B+ySwbxoa4WECMk2qrxV6FHXAOAcA4H/9k=)',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
+            backgroundColor: '#fff',
+            border: '2px solid #B4B4B4',
+            borderRadius: '3px 0 0 3px',
+            borderRight: 'none',
+            color: '#F9F9F9',
+            fontFamily: 'Arial',
+            lineHeight: '50px',
+            textAlign: 'center',
+            position: 'fixed',
+            top: '50%',
+            marginTop: '-15px',
+            right: '0',
+            opacity: '0.8',
+        };
+
+        var cssMapKey;
+
+        for (cssMapKey in cssMap) {
+            widgetElement.style[cssMapKey] = cssMap[cssMapKey];
+        }
+
+        widgetElement.setAttribute('href', '<?php echo basename(__FILE__) ?>');
+
+        document.body.appendChild(widgetElement);
+    }
+
+    window.addEventListener("load", init);
+})();
+        <?php
+    },
     'login' => function($options){
         ?>
         <div class="container container-request">
@@ -223,7 +265,9 @@ $views = [
         <nav class="navbar navbar-default">
             <div class="container">
                 <p class="navbar-text navbar-right"><a class="navbar-link" href="?page=logout">Logout</a></p>
+                <p class="navbar-text navbar-right"><a class="navbar-link" href="?page=request">Front</a></p>
                 <p class="navbar-text navbar-right">Attach page to <code><?php echo $options['currentPath'] ?></code></p>
+                <p class="navbar-text navbar-right">Widget script <code><?php echo $options['widgetPath'] ?></code></p>
             </div>
         </nav>
         <div class="container container-review">
@@ -249,8 +293,8 @@ $views = [
                                             <div class="targetDiff"></div>
                                         </div>
                                         <input type="hidden" name="changeFilePath" value="<?php echo $changeFilePath; ?>">
-                                        <button type="submit" name="type" value="accept" class="btn btn-primary">Accept</button>
-                                        <button type="submit" name="type" value="reject" class="btn btn-warning">Reject</button>
+                                        <button type="submit" name="type" value="accept" class="btn btn-primary action-confirm" data-action-confirm="Accept?">Accept</button>
+                                        <button type="submit" name="type" value="reject" class="btn btn-warning action-confirm" data-action-confirm="Reject?">Reject</button>
                                     </form>
                                     <br><br>
                                 </div>
@@ -414,6 +458,7 @@ $pages = [
                 'currentContent' => $currentContent,
                 'changesFiles' => $changesFiles,
                 'currentPath' => $configuration['currentPath'],
+                'widgetPath' => $configuration['widgetPath'],
             ];
 
             return render($views['review'], $options);
@@ -502,12 +547,22 @@ $pages = [
                     'currentPath' => $current['statePath'].'/current',
                     'requestsDirectory' => $current['statePath'].'/requests',
                     'historyPath' => $current['statePath'].'/history',
+                    'widgetPath' => $current['statePath'].'/widget.js',
                 ];
 
                 $configString = '<?php $configuration = '.var_export($savedConfiguration, true).'; ?>';
 
                 if(file_put_contents(__FILE__, $configString."\n".file_get_contents(__FILE__)) === false){
                     throw new Exception('could not add configuration to '.__FILE__);
+                }
+
+                if(!is_dir($current['statePath'])){
+                    mkdir($current['statePath'], 0775, true);
+                }
+
+                // create widget file
+                if(file_put_contents($current['statePath'].'/widget.js', render($views['widget'])) === false){
+                    throw new Exception('could not save js widget to '.$current['statePath'].'/widget.js');
                 }
 
                 header('Location: ?page=review');
@@ -641,6 +696,13 @@ if(applyFilters($preFilters, $currentPage)){
                 diffPretty = dmp.diff_prettyHtml(diffMain);
 
                 $element.find('.targetDiff').html(diffPretty);
+            });
+
+            $('.action-confirm').on('click', function(event){
+
+                if(!confirm($(event.currentTarget).data('action-confirm'))){
+                    event.preventDefault();
+                }
             });
         }
     </script>
