@@ -499,7 +499,7 @@ $pages = [
                     'label' => $current['label'],
                     'description' => $current['description'],
 
-                    'currentPath' => 'current.txt',
+                    'currentPath' => $current['statePath'].'/current',
                     'requestsDirectory' => $current['statePath'].'/requests',
                     'historyPath' => $current['statePath'].'/history',
                 ];
